@@ -1,8 +1,10 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import static java.lang.Math.pow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.lang.reflect.Field;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,5 +43,7 @@ public class AtmTest {
     long result = atm.getChangeByDenominators(0, denominations);
     assertEquals(1, result);
   }
+
+ 
 }
 

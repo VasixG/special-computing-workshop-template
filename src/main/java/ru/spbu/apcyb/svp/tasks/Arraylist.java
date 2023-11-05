@@ -42,7 +42,7 @@ public class Arraylist<T> implements List<T>, Serializable {
   @Override
   public boolean contains(Object o) {
     for (Object elem : this.arr) {
-      if (o == elem) {
+      if (o.equals(elem)) {
         return true;
       }
     }
@@ -51,8 +51,12 @@ public class Arraylist<T> implements List<T>, Serializable {
 
   @Override
   public boolean add(Object o) {
-    if (size == this.arr.length) {
-      this.arr = Arrays.copyOf(this.arr, this.size * 2);
+    if (this.size == this.arr.length) {
+      if ((this.size & (1 << 30)) != 0) {
+        return false;
+      } else {
+        this.arr = Arrays.copyOf(this.arr, this.size * 2);
+      }
     }
 
     arr[size] = o;
@@ -85,7 +89,7 @@ public class Arraylist<T> implements List<T>, Serializable {
   @Override
   public boolean remove(Object o) {
     for (int i = 0; i < size; ++i) {
-      if (this.arr[i] == o) {
+      if (this.arr[i].equals(o)) {
         this.remove(i);
       }
     }

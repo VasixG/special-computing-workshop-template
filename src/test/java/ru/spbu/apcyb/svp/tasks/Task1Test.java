@@ -10,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Task1Test {
+class Task1Test {
 
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
@@ -30,10 +32,10 @@ public class Task1Test {
     System.setIn(originalIn);
   }
 
-  @Test
-  public void testNegativeChangeException() {
-    String input = "-5\n1\n1";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+  @ParameterizedTest
+  @ValueSource(strings = {"-5\n1\n1", "5\n-1", "5\n2\n3\n-1\n", "5\n2\n3\n0\n"})
+  void testInvalidDigitInput(String arg) {
+    ByteArrayInputStream inContent = new ByteArrayInputStream(arg.getBytes());
     System.setIn(inContent);
 
     Task1.main(null);
@@ -43,77 +45,17 @@ public class Task1Test {
   }
 
   @Test
-  public void testNegativeNumOfDenominatorsException() {
-    String input = "5\n-1";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
-    System.setIn(inContent);
-
-    Task1.main(null);
-
-    String output = outContent.toString();
-    assertTrue(output.contains("Invalid input. Please enter a positive integer:"));
-  }
-
-  @Test
-  public void testNegativeDenominatorException() {
-    String input = "5\n2\n3\n-1\n";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
-    System.setIn(inContent);
-
-    Task1.main(null);
-
-    String output = outContent.toString();
-    assertTrue(output.contains("Invalid input. Please enter a positive integer:"));
-  }
-
-  @Test
-  public void testZeroDenominatorException() {
-    String input = "5\n2\n3\n0\n";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
-    System.setIn(inContent);
-
-    Task1.main(null);
-
-    String output = outContent.toString();
-    assertTrue(output.contains("Invalid input. Please enter a positive integer:"));
-  }
-
-  @Test
-  public void testAllOK() {
+  void testAllOK() {
     String input = "5\n3\n1\n2\n5\n";
     System.setIn(new ByteArrayInputStream(input.getBytes()));
     Task1.main(null);
     assertTrue(outContent.toString().contains("5")); // Replace with actual expected output
   }
 
-  @Test
-  public void testNotNumberDenominatorException() {
-    String input = "5\n2\n3\na\n";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
-    System.setIn(inContent);
-
-    Task1.main(null);
-
-    String output = outContent.toString();
-    assertTrue(outContent.toString().contains("The input contains invalid characters."));
-  }
-
-  @Test
-  public void testNotNumberChangeException() {
-    String input = "asd";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
-    System.setIn(inContent);
-
-    Task1.main(null);
-
-    String output = outContent.toString();
-    assertTrue(outContent.toString().contains("The input contains invalid characters."));
-  }
-
-  @Test
-  public void testNotNumberNumOfDenominatorsException() {
-    String input = "5\nsad";
-    ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+  @ParameterizedTest
+  @ValueSource(strings = {"5\n2\n3\na\n", "asd", "5\nsad"})
+  void testInvalidCharacterInput(String arg) {
+    ByteArrayInputStream inContent = new ByteArrayInputStream(arg.getBytes());
     System.setIn(inContent);
 
     Task1.main(null);

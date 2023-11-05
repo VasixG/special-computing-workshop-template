@@ -5,11 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Before;
 import org.junit.Test;
 
+import static java.lang.Math.pow;
 import static org.junit.Assert.*;
 
 public class ArraylistTest {
