@@ -118,12 +118,12 @@ public class Arraylist<T> implements List<T>, Serializable {
 
   @Override
   public <E> E[] toArray(E[] a) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(UNSUPPORTED_MESSAGE);
   }
 
   @Override
   public Iterator<T> iterator() {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(UNSUPPORTED_MESSAGE);
   }
 
   @Override
