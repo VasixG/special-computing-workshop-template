@@ -52,7 +52,7 @@ public class Arraylist<T> implements List<T>, Serializable {
   @Override
   public boolean add(Object o) {
     if (this.size == this.arr.length) {
-      if ((this.size & (1 << 30)) != 0) {
+      if (((this.size>>30)&1)!=0) {
         return false;
       } else {
         this.arr = Arrays.copyOf(this.arr, this.size * 2);
