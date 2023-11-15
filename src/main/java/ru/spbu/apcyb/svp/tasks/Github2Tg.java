@@ -111,7 +111,7 @@ public class Github2Tg {
     String repositoryName = repository.get("name").getAsString();
 
     return String.format(
-        "NOTIFICATION\nReason: %s\n Date: %s\n URL: %s\n Type: %s\n Repository: %s", reason,
+        "NOTIFICATION%nReason: %s%n Date: %s%n URL: %s%n Type: %s%n Repository: %s", reason,
         moscowTime, subjectUrl, subjectType, repositoryName);
   }
 
@@ -133,7 +133,7 @@ public class Github2Tg {
     String repositoryName = repository.get("name").getAsString();
 
     return String.format(
-        "NOTIFICATION\nReason: %s\n Date: %s\n URL: %s\n Type: %s\n Title: %s\n Repository: %s",
+        "NOTIFICATION%nReason: %s%n Date: %s%n URL: %s%n Type: %s%n Title: %s%n Repository: %s",
         reason, moscowTime, subjectUrl, subjectType, subjectTitle, repositoryName);
   }
 
@@ -161,7 +161,7 @@ public class Github2Tg {
 
     String committer = committerObj.get("name").getAsString();
 
-    return String.format("COMMIT in %s\n Committer: %s\n Message: '%s'\n Date: %s\n URL: %s",
+    return String.format("COMMIT in %s%n Committer: %s%n Message: '%s'%n Date: %s%n URL: %s",
         htmlUrl.substring(0, htmlUrl.indexOf("/commit")), committer, message, moscowTime, htmlUrl);
   }
 
@@ -194,7 +194,7 @@ public class Github2Tg {
     }
     String assigneesStr = String.join(", ", logins);
 
-    return String.format("ISSUE in %s\n Assignees: %s\n Title: '%s'\n Date: %s\n URL: %s",
+    return String.format("ISSUE in %s%n Assignees: %s%n Title: '%s'%n Date: %s%n URL: %s",
         htmlUrl.substring(0, htmlUrl.indexOf("/issues")), assigneesStr, title, moscowTime, htmlUrl);
   }
 
