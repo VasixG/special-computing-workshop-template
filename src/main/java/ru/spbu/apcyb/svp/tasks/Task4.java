@@ -5,18 +5,23 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
  * Entrypoint.
  */
 public class Task4 {
+
+  static final Logger logger = Logger.getLogger("");
 
   /**
    * Generate file with some numbers.
@@ -49,7 +54,8 @@ public class Task4 {
         numbers.add(Double.parseDouble(line));
       }
     } catch (IOException e) {
-      System.out.println("An error while reading the file: " + e.getMessage());
+      logger.log(Level.WARNING,
+          MessageFormat.format("An error while reading the file: {0}", e.getMessage()));
     }
     return numbers;
   }
@@ -92,7 +98,9 @@ public class Task4 {
           .thenApplyAsync(___ -> futures.stream().map(CompletableFuture::join).toList()).join();
 
     } catch (ThreadDeath e) {
-      System.err.println("ThreadDeath");
+      logger.log(Level.WARNING,
+          MessageFormat.format("An error while reading the file: {0}", e.getMessage()));
+      Thread.currentThread().interrupt();
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -110,7 +118,7 @@ public class Task4 {
   private static double getComputationTimeOneThread(List<Double> numbers) {
     final long startTime = System.nanoTime();
     List<Double> result = new ArrayList<>();
-    for(Double num: numbers){
+    for (Double num : numbers) {
       result.add(Math.tan(Math.toRadians(num)));
     }
     return System.nanoTime() - startTime;
@@ -123,10 +131,12 @@ public class Task4 {
 
     double timeWithOneThread = getComputationTimeOneThread(numbers);
     double timeWithThreads = getComputationTimeThreads(numbers, threadNum1);
-    System.out.printf("Time for %d numbers with %d thread(s) if %f seconds%n", count, 1,
-        timeWithOneThread / Math.pow(10, 9));
-    System.out.printf("Time for %d numbers with %d thread(s) if %f seconds%n", count,threadNum1,
-        timeWithThreads / Math.pow(10, 9));
+    logger.log(Level.INFO,
+        String.format("Time for %d numbers with %d thread(s) if %f seconds%n", count, 1,
+            timeWithOneThread / Math.pow(10, 9)));
+    logger.log(Level.INFO,
+        String.format("Time for %d numbers with %d thread(s) if %f seconds%n", count, threadNum1,
+            timeWithThreads / Math.pow(10, 9)));
   }
 
 
@@ -136,6 +146,6 @@ public class Task4 {
   public static void main(String[] args) throws IOException {
     compareTime(1, 10);
     compareTime(100, 10);
-    compareTime(1000000,  10);
+    compareTime(1000000, 10);
   }
 }
