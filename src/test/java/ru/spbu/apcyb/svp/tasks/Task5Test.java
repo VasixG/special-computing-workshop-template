@@ -2,6 +2,7 @@ package ru.spbu.apcyb.svp.tasks;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
@@ -17,7 +18,7 @@ class Task5Test {
     Path testFile = Paths.get("src/test/resources/task5.txt");
     Files.writeString(testFile, "hello world\nhello meow");
 
-    Map<String, Long> result = Task5.countWords(testFile);
+    Map<String, Long> result = Task5.countWords(testFile, Charset.forName("Windows-1251"));
 
     assertEquals(2, result.getOrDefault("hello", 0L));
     assertEquals(1, result.getOrDefault("world", 0L));

@@ -25,10 +25,7 @@ hs_err_pid*
 replay_pid*
 
 target/
-
-src/main/resources/
-
-src/test/resources/
+text/
 
 .idea/*
 

@@ -15,6 +15,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,13 +25,15 @@ import java.util.stream.Stream;
  */
 public class Task5 {
 
-  static Map<String, Long> countWords(Path filePath) {
-    try (Stream<String> lines = Files.lines(filePath, Charset.forName("Windows-1251"))) {
+  static final Logger logger = Logger.getLogger("");
+
+  static Map<String, Long> countWords(Path filePath, Charset charset) {
+    try (Stream<String> lines = Files.lines(filePath, charset)) {
       return lines.flatMap(line -> Arrays.stream(line.split("[^a-zA-ZЁёА-я0-9]")))
           .filter(line -> !line.isEmpty()).map(String::toLowerCase)
           .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     } catch (IOException e) {
-      System.out.println("IO error");
+      logger.log(Level.INFO, "IO error");
       return Collections.emptyMap();
     }
   }
@@ -72,12 +76,12 @@ public class Task5 {
    * Class entrypoint
    */
   public static void main(String[] args) {
-    Path filePath = Paths.get("src/main/resources/task5.txt");
-    Map<String, Long> wordCounts = countWords(filePath);
+    Path filePath = Paths.get("text/task5.txt");
+    Map<String, Long> wordCounts = countWords(filePath, Charset.forName("Windows-1251"));
 
-    writeWordCounts(wordCounts, "src/main/resources/counts.txt");
+    writeWordCounts(wordCounts, "text/counts.txt");
 
-    writeWordsAsync(wordCounts, "src/main/resources/words/");
+    writeWordsAsync(wordCounts, "text/words/");
   }
 
 }
